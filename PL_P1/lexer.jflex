@@ -79,9 +79,11 @@ ident = ([:jletter:] | "_" ) ([:jletterdigit:] | [:jletter:] | "_" )*
 
   {Whitespace} {                              }
   ";"          { return symbolFactory.newSymbol("SEMI", SEMI); }
+  ","          { return symbolFactory.newSymbol("COMMA", COMMA); }
   "+"          { return symbolFactory.newSymbol("PLUS", PLUS); }
   "-"          { return symbolFactory.newSymbol("MINUS", MINUS); }
   "*"          { return symbolFactory.newSymbol("TIMES", TIMES); }
+  "/"          { return symbolFactory.newSymbol("DIV", DIV); }
   "n"          { return symbolFactory.newSymbol("UMINUS", UMINUS); }
   "("          { return symbolFactory.newSymbol("LPAREN", LPAREN); }
   ")"          { return symbolFactory.newSymbol("RPAREN", RPAREN); }
