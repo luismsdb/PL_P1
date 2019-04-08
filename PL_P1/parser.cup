@@ -31,8 +31,9 @@ init with {:
 scan with {: return lexer.next_token(); :};
 
 /* Terminals (tokens returned by the scanner). */
-terminal            SEMI, COMMA, PLUS, MINUS, UMINUS, TIMES, DIV, LPAREN, RPAREN, EXP, LOG, SIN, COS, INF;
+terminal            SEMI, COMMA, PLUS, MINUS, UMINUS, TIMES, DIV, LPAREN, RPAREN, EXP, LOG, SIN, COS;
 terminal Integer    NUMBER;        // our scanner provides numbers as integers
+terminal String     INF;
 
 /* Non terminals */
 non terminal            expr_list;
@@ -41,6 +42,7 @@ non terminal Integer    expr;      // used to store evaluated subexpressions
 /* Precedences */
 precedence left PLUS, MINUS;
 precedence left TIMES;
+precedence left EXP, LOG, SIN, COS;
 precedence left UMINUS;
 
 /* The grammar rules */
@@ -60,17 +62,14 @@ expr      ::= expr:e1 PLUS  expr:e2         {: RESULT = e1+e2;        :}
              | LOG LPAREN expr:e RPAREN		{: RESULT = Float.valueOf(String.valueOf(Math.log(e)));   :}
              | COS LPAREN expr:e RPAREN     {: RESULT = Float.valueOf(String.valueOf(Math.cos(e)));   :}
              | SIN LPAREN expr:e RPAREN     {: RESULT = Float.valueOf(String.valueOf(Math.sin(e)));   :}
-             
              | INF PLUS expr:e				{: RESULT = System.out.println("INF");   :}
              | INF MINUS expr:e				{: RESULT = System.out.println("INF");   :}
-             
              | INF TIMES expr:e				{: RESULT = System.out.println("INF");   :}
              | INF DIV expr:e				{: RESULT = System.out.println("INF");   :}
              | expr:e DIV INF				{: RESULT = System.out.println("INF");   :}
              //| expr:e DIV expr:0			{: RESULT = Float.valueOf(0);   :}
              | INF DIV expr:e				{: RESULT = System.out.println("INF");   :}
              //| expr:0 DIV INF				{: RESULT = Float.valueOf(0);   :}
-             
              | INF MINUS INF				{: RESULT = System.out.println("UNK");   :}
              | MINUS INF PLUS INF			{: RESULT = System.out.println("UNK");   :}
              //| expr:0 DIV expr:0			{: RESULT = System.out.println("UNK");   :}
